@@ -8,6 +8,6 @@ import (
 func mapurls(appConf *conf.AppConfig) {
 	bcontroller := controllers.NewBookController(appConf)
 	api := router.Group("/book-store")
-	api.POST("/")
+	api.POST("/add/book", bcontroller.AddBook)
 
 }
