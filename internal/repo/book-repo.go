@@ -4,7 +4,6 @@ import (
 	"book-store/internal/conf"
 	"book-store/internal/errors"
 	"book-store/internal/models"
-	"fmt"
 
 	"github.com/jinzhu/gorm"
 )
@@ -22,8 +21,8 @@ func NewBookRepo(appconf *conf.AppConfig) *BookRepo {
 }
 
 func (br *BookRepo) AddBook(book *models.Book) errors.RestAPIError {
-	if err := br.DB.Table(models.Table_Book).Save(book); err != nil {
-		fmt.Print("err while saving to db: ", err)
+	if err := br.DB.Table(models.Table_Book).Save(book).Error; err != nil {
+		return errors.NewInternalServerError(err.Error())
 	}
 	return errors.NO_ERROR()
 }
