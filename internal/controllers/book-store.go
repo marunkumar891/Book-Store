@@ -6,6 +6,7 @@ import (
 	"book-store/internal/models"
 	"book-store/internal/services"
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,4 +37,6 @@ func (bc *BookController) AddBook(c *gin.Context) {
 		fmt.Print("error while passing to servcie layer: ", err)
 		return
 	}
+
+	c.JSON(http.StatusOK, book)
 }
