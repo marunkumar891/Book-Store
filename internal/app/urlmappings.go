@@ -12,6 +12,7 @@ func mapurls(appConf *conf.AppConfig) {
 	{
 		api.POST("/add/book", bcontroller.AddBook)
 		api.GET("/get/all/book", bcontroller.GetAllBook)
+		api.GET("/get/book/:ID", bcontroller.GetBook)
 
 	}
 
