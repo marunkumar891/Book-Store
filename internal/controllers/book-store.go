@@ -5,7 +5,7 @@ import (
 	"book-store/internal/errors"
 	"book-store/internal/models"
 	"book-store/internal/services"
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -28,15 +28,28 @@ func (bc *BookController) AddBook(c *gin.Context) {
 
 	//m := "Adding book"
 	if err := c.ShouldBindJSON(&book); err != nil {
-		fmt.Print("error while binding: ", err)
+		log.Print("error while binding: ", err)
+		restErr := errors.NewBadRequestError("invalid request body: " + err.Error())
+		c.JSON(restErr.Status, restErr)
 		return
 
 	}
 
 	if err := bc.BookService.AddBook(book); errors.HasError(&err) {
-		fmt.Print("error while passing to servcie layer: ", err)
+		log.Print("error while passing to servcie layer: ", err)
+		c.JSON(err.Status, err)
 		return
 	}
 
 	c.JSON(http.StatusOK, book)
+}
+func (bc *BookController) GetAllBook(c *gin.Context) {
+
+	books, err := bc.BookService.GetAllBook()
+	if errors.HasError(&err) {
+		log.Print("error while passing to service layer: ", err)
+		c.JSON(err.Status, err)
+		return
+	}
+	c.JSON(http.StatusOK, books)
 }

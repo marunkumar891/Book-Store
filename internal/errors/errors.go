@@ -22,3 +22,17 @@ func NewInternalServerError(message string) RestAPIError {
 		Error:   "Internal server error",
 	}
 }
+func NewBadRequestError(message string) RestAPIError {
+	return RestAPIError{
+		Message: message,
+		Status:  http.StatusBadRequest,
+		Error:   "bad request",
+	}
+}
+func NewNotFoundError(message string) RestAPIError {
+	return RestAPIError{
+		Message: message,
+		Status:  http.StatusNotFound,
+		Error:   "Not found",
+	}
+}

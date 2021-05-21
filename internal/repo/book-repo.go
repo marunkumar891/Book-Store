@@ -4,6 +4,7 @@ import (
 	"book-store/internal/conf"
 	"book-store/internal/errors"
 	"book-store/internal/models"
+	"log"
 
 	"github.com/jinzhu/gorm"
 )
@@ -22,6 +23,13 @@ func NewBookRepo(appconf *conf.AppConfig) *BookRepo {
 
 func (br *BookRepo) AddBook(book *models.Book) errors.RestAPIError {
 	if err := br.DB.Table(models.Table_Book).Save(book).Error; err != nil {
+		return errors.NewInternalServerError(err.Error())
+	}
+	return errors.NO_ERROR()
+}
+func (br *BookRepo) GetAllBook(books *[]models.Book) errors.RestAPIError {
+	if err := br.DB.Table(models.Table_Book).Find(books).Error; err != nil {
+		log.Print("unable to fetch from db: ", err)
 		return errors.NewInternalServerError(err.Error())
 	}
 	return errors.NO_ERROR()

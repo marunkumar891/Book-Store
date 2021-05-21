@@ -11,6 +11,7 @@ func mapurls(appConf *conf.AppConfig) {
 	api := router.Group("/bookstore")
 	{
 		api.POST("/add/book", bcontroller.AddBook)
+		api.GET("/get/all/book", bcontroller.GetAllBook)
 
 	}
 
