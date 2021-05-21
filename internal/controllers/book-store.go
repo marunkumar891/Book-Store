@@ -26,7 +26,6 @@ func NewBookController(appconf *conf.AppConfig) *BookController {
 func (bc *BookController) AddBook(c *gin.Context) {
 	var book *models.Book
 
-	//m := "Adding book"
 	if err := c.ShouldBindJSON(&book); err != nil {
 		log.Print("error while binding: ", err)
 		restErr := errors.NewBadRequestError("invalid request body: " + err.Error())
@@ -90,4 +89,20 @@ func (bc *BookController) CheckBook(c *gin.Context) {
 
 	}
 
+}
+func (bc *BookController) DeleteBook(c *gin.Context) {
+	id := c.Params.ByName("ID")
+	if id == "" {
+		log.Print("invalid id")
+		return
+	}
+	err := bc.BookService.DeleteBook(id)
+	if errors.HasError(&err) {
+		log.Print("error while passing to service layer: ", err)
+		restErr := errors.NewBadRequestError("invalid request body")
+		c.JSON(restErr.Status, restErr)
+		return
+
+	}
+	c.JSON(http.StatusOK, "deleted successfully")
 }

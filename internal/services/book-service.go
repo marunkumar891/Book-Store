@@ -59,3 +59,12 @@ func (bs *BookService) CheckBook(book models.Book, id string) (models.Book, erro
 	return book, errors.NO_ERROR()
 
 }
+func (bs *BookService) DeleteBook(id string) errors.RestAPIError {
+	book := models.Book{}
+	err := bs.bookrepo.DeleteBook(id, &book)
+	if errors.HasError(&err) {
+		log.Print("error while passing to repo layer: ", err)
+		return err
+	}
+	return errors.NO_ERROR()
+}
