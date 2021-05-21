@@ -48,7 +48,7 @@ func NewConfig() *AppConfig {
 		DBConfig: dbConfig{
 			DBUSER:     getEnv("DBUSER", "root"),
 			DBPASSWORD: getEnv("DBPASSWORD", "Tarus_891"),
-			DBNAME:     getEnv("DBNAME", "librarydata"),
+			DBNAME:     getEnv("DBNAME", "bookstore"),
 			DBHOST:     getEnv("DBHOST", "localhost"),
 			DBPORT:     getEnv("DBPORT", "3306"),
 			DBLOGMODE:  getEnvAsBool("DBLOGMODE", false),
