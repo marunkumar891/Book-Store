@@ -14,6 +14,7 @@ func mapurls(appConf *conf.AppConfig) {
 		api.GET("/get/all/book", bcontroller.GetAllBook)
 		api.GET("/get/book/:ID", bcontroller.GetBook)
 		api.GET("/check/book/:ID", bcontroller.CheckBook)
+		api.DELETE("/delete/book/:ID", bcontroller.DeleteBook)
 
 	}
 
