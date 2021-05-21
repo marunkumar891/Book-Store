@@ -24,7 +24,6 @@ func main() {
 		appConfig.DBConfig.DBPORT,
 		appConfig.DBConfig.DBNAME,
 	))
-	//fmt.Println("cam here")
 	if err != nil {
 		log.Println("Error Connecting to the DB", err.Error())
 		panic(err)
@@ -34,7 +33,6 @@ func main() {
 		log.Print(err)
 		fmt.Println("unable to auto migrate.")
 	}
-	//fmt.Print("came here")
 	defer db.Close()
 	app.StartApplication(appConfig)
 
