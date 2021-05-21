@@ -42,3 +42,10 @@ func (br *BookRepo) GetBook(book *models.Book, id string) errors.RestAPIError {
 	}
 	return errors.NO_ERROR()
 }
+func (br *BookRepo) CheckBook(book *models.Book, id string) errors.RestAPIError {
+	if err := br.DB.Table(models.Table_Book).Where("id = ?", id).Find(book).Error; err != nil {
+		log.Print("unable to fetch from db: ", err.Error())
+		return errors.NewNotFoundError(err.Error())
+	}
+	return errors.NO_ERROR()
+}

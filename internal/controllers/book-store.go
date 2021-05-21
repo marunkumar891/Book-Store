@@ -69,3 +69,25 @@ func (bc *BookController) GetBook(c *gin.Context) {
 	c.JSON(err.Status, book)
 
 }
+func (bc *BookController) CheckBook(c *gin.Context) {
+	book := models.Book{}
+	id := c.Params.ByName("ID")
+	if id == "" {
+		log.Print("id invalid")
+		return
+	}
+	book, err := bc.BookService.CheckBook(book, id)
+	if errors.HasError(&err) {
+		log.Print("error while passing to service layer: ", err)
+		c.JSON(err.Status, err)
+		return
+	}
+	if book.IsAvailable {
+		c.JSON(err.Status, "Book available")
+
+	} else {
+		c.JSON(err.Status, "Book unavialable")
+
+	}
+
+}
