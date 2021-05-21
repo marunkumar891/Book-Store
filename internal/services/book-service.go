@@ -39,3 +39,13 @@ func (bs *BookService) GetAllBook() ([]models.Book, errors.RestAPIError) {
 
 	return books, errors.NO_ERROR()
 }
+func (bs *BookService) GetBook(book models.Book, id string) (models.Book, errors.RestAPIError) {
+	book = models.Book{}
+	err := bs.bookrepo.GetBook(&book, id)
+	if errors.HasError(&err) {
+		log.Print("error while passing to repo layer: ", err)
+		return models.Book{}, err
+	}
+	return book, errors.NO_ERROR()
+
+}

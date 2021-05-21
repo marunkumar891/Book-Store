@@ -23,14 +23,22 @@ func NewBookRepo(appconf *conf.AppConfig) *BookRepo {
 
 func (br *BookRepo) AddBook(book *models.Book) errors.RestAPIError {
 	if err := br.DB.Table(models.Table_Book).Save(book).Error; err != nil {
+		log.Print("unable to add book into db: ", err.Error())
 		return errors.NewInternalServerError(err.Error())
 	}
 	return errors.NO_ERROR()
 }
 func (br *BookRepo) GetAllBook(books *[]models.Book) errors.RestAPIError {
 	if err := br.DB.Table(models.Table_Book).Find(books).Error; err != nil {
-		log.Print("unable to fetch from db: ", err)
+		log.Print("unable to fetch from db: ", err.Error())
 		return errors.NewInternalServerError(err.Error())
+	}
+	return errors.NO_ERROR()
+}
+func (br *BookRepo) GetBook(book *models.Book, id string) errors.RestAPIError {
+	if err := br.DB.Table(models.Table_Book).Where("id = ?", id).Find(book).Error; err != nil {
+		log.Print("unable to fetch from db: ", err.Error())
+		return errors.NewNotFoundError(err.Error())
 	}
 	return errors.NO_ERROR()
 }

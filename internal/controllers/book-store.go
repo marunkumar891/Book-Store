@@ -53,3 +53,19 @@ func (bc *BookController) GetAllBook(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, books)
 }
+func (bc *BookController) GetBook(c *gin.Context) {
+	book := models.Book{}
+	id := c.Params.ByName("ID")
+	if id == "" {
+		log.Print("id invalid")
+		return
+	}
+	book, err := bc.BookService.GetBook(book, id)
+	if errors.HasError(&err) {
+		log.Print("error while passing to service layer: ", err)
+		c.JSON(err.Status, err)
+		return
+	}
+	c.JSON(err.Status, book)
+
+}
