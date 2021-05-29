@@ -36,3 +36,10 @@ func NewNotFoundError(message string) RestAPIError {
 		Error:   "Not found",
 	}
 }
+func NewUnAuthorizedError(message string) RestAPIError {
+	return RestAPIError{
+		Message: message,
+		Status:  http.StatusUnauthorized,
+		Error:   "User not authorized to access this resource",
+	}
+}
