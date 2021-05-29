@@ -3,6 +3,7 @@ package app
 import (
 	"book-store/internal/conf"
 	"book-store/internal/controllers"
+	"book-store/internal/middlewares"
 )
 
 func mapurls(appConf *conf.AppConfig) {
@@ -10,6 +11,7 @@ func mapurls(appConf *conf.AppConfig) {
 
 	api := router.Group("/bookstore")
 	{
+		api.Use(middlewares.BasicAuthMiddleware(appConf))
 		api.POST("/add/book", bcontroller.AddBook)
 		api.GET("/get/all/book", bcontroller.GetAllBook)
 		api.GET("/get/book/:ID", bcontroller.GetBook)

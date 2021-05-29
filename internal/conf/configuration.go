@@ -24,9 +24,10 @@ type loggingConfig struct {
 	WarningLogger *log.Logger
 }
 type serverConfig struct {
-	APIPORT             int
-	APINAME             string
-	XPRESSLANE_TIMEZONE string
+	APIPORT      int
+	APINAME      string
+	ADMIN_KEY    string
+	ADMIN_SECRET string
 }
 
 type AppConfig struct {
@@ -41,8 +42,10 @@ func NewConfig() *AppConfig {
 	appConfig := AppConfig{
 
 		Server: serverConfig{
-			APIPORT: getEnvAsInt("APIPORT", 8787),
-			APINAME: getEnv("APINAME", "book-store"),
+			APIPORT:      getEnvAsInt("APIPORT", 8787),
+			APINAME:      getEnv("APINAME", "book-store"),
+			ADMIN_KEY:    getEnv("ADMIN_KEY", "admin"),
+			ADMIN_SECRET: getEnv("ADMIN_SECRET", "admin@admin"),
 		},
 
 		DBConfig: dbConfig{
@@ -56,21 +59,6 @@ func NewConfig() *AppConfig {
 	}
 	return &appConfig
 }
-
-// var loc *time.Location
-
-// func (s *AppConfig) CurrentTime() time.Time {
-
-// 	if loc == nil {
-// 		location, err := time.LoadLocation(s.Server.XPRESSLANE_TIMEZONE)
-// 		if err != nil {
-// 			panic(err)
-// 		}
-// 		loc = location
-// 	}
-// 	t := time.Now()
-// 	return t.In(loc)
-// }
 
 func getEnv(key string, defaultval string) string {
 	if value, exists := os.LookupEnv(key); exists {
